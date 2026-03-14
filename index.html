@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sally Tiens – Productos Naturales</title>
+    <style>
+        :root {
+            --tiens-green: #006633;
+            --title-color: #00897B; 
+            --price-color: #C48F56; 
+            --btn-bg: #EAEAEA;
+            --btn-text: #555555;
+            --bg-body: #F5F7F6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: #333;
+            background-image: radial-gradient(#e0e8e3 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        header {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            color: var(--tiens-green);
+            font-size: 26px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            min-height: 100vh;
+        }
+
+        /* --- CARRUSEL INFINITO --- */
+        .hero-carousel {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+            background-color: #e8f5e9;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            width: max-content;
+            animation: scrollLoop 30s linear infinite;
+        }
+
+        .carousel-track img {
+            height: 220px;
+            width: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            background-color: white;
+            padding: 5px;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 40%, rgba(0, 102, 51, 0.85) 100%);
+            display: flex;
+            align-items: flex-end; 
+            justify-content: center;
+            padding-bottom: 30px;
+            pointer-events: none; 
+        }
+
+        .hero-overlay h2 {
+            color: white;
+            font-size: 42px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+            text-align: center;
+        }
+
+        @keyframes scrollLoop {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 10px)); } 
+        }
+
+        /* Categorías */
+        .category-section {
+            margin-bottom: 60px;
+        }
+        .category-title {
+            color: var(--tiens-green);
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            border-left: 5px solid var(--tiens-green);
+        }
+        .category-banner {
+            width: 100%;
+            height: 120px;
+            background-color: #f0f0f0;
+            margin-bottom: 25px;
+            border-radius: 8px;
+        }
+
+        /* Grilla de productos */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            padding: 10px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 4px;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="12" fill="%2300897B">Falta imagen</text></svg>');
+        }
+
+        .product-name {
+            color: var(--title-color);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-price {
+            color: var(--price-color);
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .btn-buy {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            padding: 8px 15px;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+            width: 100%;
+            max-width: 150px;
+        }
+
+        .btn-buy:hover {
+            background-color: #d4d4d4;
+            color: #333;
+        }
+
+        /* Sección de Pagos */
+        .payment-section {
+            margin-top: 50px;
+            padding: 40px 20px;
+            background-color: white;
+            border-top: 2px solid #eee;
+            text-align: center;
+        }
+
+        .payment-section h3 {
+            color: var(--tiens-green);
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .pay-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .pay-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        /* Botón Flotante WhatsApp */
+        .floating-wa {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            text-decoration: none;
+        }
+        .wa-tooltip {
+            background-color: white;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .wa-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-image: url('whatsapp.png'); 
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.5);
+            transition: transform 0.3s;
+            background-color: white;
+            border: 2px solid white;
+        }
+        .floating-wa:hover .wa-icon {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .hero-overlay h2 { font-size: 28px; padding-bottom: 10px; }
+            .payment-methods { gap: 30px; }
+            .wa-tooltip { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Sally Tiens – Productos Naturales</h1>
+    </header>
+
+    <div class="container">
+        
+        <div class="hero-carousel">
+            <div class="carousel-track">
+                <img src="shaji.png" alt="Shaji" onerror="this.style.display='none'">
+                <img src="cilvaris.png" alt="Cilvaris" onerror="this.style.display='none'">
+                <img src="cordyceps.png" alt="Cordyceps" onerror="this.style.display='none'">
+                <img src="pack-toallas-airiz.png" alt="Airiz" onerror="this.style.display='none'">
+                <img src="masajeador capilar multifuncional.png" alt="Masajeador" onerror="this.style.display='none'">
+                <img src="orecare pasta dental.png" alt="Pasta Dental" onerror="this.style.display='none'">
+                <img src="tetianshi.png" alt="Te Tianshi" onerror="this.style.display='none'">
+                <img src="espirulina.png" alt="Espirulina" onerror="this.style.display='none'">
+                
+                <img src="shaji.png" alt="Shaji" onerror="this.style.display='none'">
+                <img src="cilvaris.png" alt="Cilvaris" onerror="this.style.display='none'">
+                <img src="cordyceps.png" alt="Cordyceps" onerror="this.style.display='none'">
+                <img src="pack-toallas-airiz.png" alt="Airiz" onerror="this.style.display='none'">
+                <img src="masajeador capilar multifuncional.png" alt="Masajeador" onerror="this.style.display='none'">
+                <img src="orecare pasta dental.png" alt="Pasta Dental" onerror="this.style.display='none'">
+                <img src="tetianshi.png" alt="Te Tianshi" onerror="this.style.display='none'">
+                <img src="espirulina.png" alt="Espirulina" onerror="this.style.display='none'">
+            </div>
+            <div class="hero-overlay">
+                <h2>Bienestar y Salud Natural</h2>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">Suplementos Nutricionales</h2>
+            <div class="category-banner" style="background-image: linear-gradient(to right, #e8f5e9, #c8e6c9);"></div>
+            
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="viokal.png" alt="Viokal" class="product-image">
+                    <div class="product-name">Viokal (10 sachets x 10 g)</div>
+                    <div class="product-price">S/ 96.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Viokal (10 sachets x 10 g)')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="calcio dietetico.png" alt="Viokal Diet" class="product-image">
+                    <div class="product-name">Viokal Diet (10 sachets x 10 g)</div>
+                    <div class="product-price">S/ 125.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Viokal Diet')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="calcio con lecitina.png" alt="Calcio Lecitina" class="product-image">
+                    <div class="product-name">Viokal con Lecitina</div>
+                    <div class="product-price">S/ 60.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Viokal con Lecitina')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="vita-plus.png" alt="Vita Plus" class="product-image">
+                    <div class="product-name">Vita Plus (10 sachets x 10 g)</div>
+                    <div class="product-price">S/ 96.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Vita Plus')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="jiaogulan.png" alt="Jiaogulan" class="product-image">
+                    <div class="product-name">Cápsulas de Jiaogulan Plus</div>
+                    <div class="product-price">S/ 182.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Jiaogulan Plus')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="cordyceps.png" alt="Cordyceps" class="product-image">
+                    <div class="product-name">Cápsulas de Cordyceps 500 mg</div>
+                    <div class="product-price">S/ 203.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Cordyceps 500 mg')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="shaji.png" alt="Aceite Shaji" class="product-image">
+                    <div class="product-name">Aceite de Semilla de Shaji</div>
+                    <div class="product-price">S/ 260.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Aceite Semillas de Shaji')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="chitosa.png" alt="Chitosa" class="product-image">
+                    <div class="product-name">Cápsulas de Chitosa</div>
+                    <div class="product-price">S/ 206.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Chitosa')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="espirulina.png" alt="Espirulina" class="product-image">
+                    <div class="product-name">Cápsulas de Espirulina</div>
+                    <div class="product-price">S/ 140.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Espirulina')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="extractouva.png" alt="Extracto Uva" class="product-image">
+                    <div class="product-name">Extracto de Uva</div>
+                    <div class="product-price">S/ 227.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Extracto de Uva')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="fibratiens.png" alt="Fibra" class="product-image">
+                    <div class="product-name">Fibra Tiens masticables</div>
+                    <div class="product-price">S/ 115.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Fibra Tiens')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="zinc.png" alt="Zinc" class="product-image">
+                    <div class="product-name">Suplemento de Zinc</div>
+                    <div class="product-price">S/ 58.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Zinc')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="selenio.png" alt="Selenio" class="product-image">
+                    <div class="product-name">Selenio PLUS - Orgánico</div>
+                    <div class="product-price">S/ 95.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Selenio Plus')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="luteina.png" alt="Luteina" class="product-image">
+                    <div class="product-name">LUTEÍNA Vision Plus TIENS</div>
+                    <div class="product-price">S/ 52.80</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Luteína Vision Plus')">Añadir al carrito</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">Bebidas y Tés</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="tetianshi.png" alt="Té Tianshi" class="product-image">
+                    <div class="product-name">Té Tianshi</div>
+                    <div class="product-price">S/ 80.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Té Tianshi')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="temilenario.png" alt="Té Milenario" class="product-image">
+                    <div class="product-name">Té Milenario</div>
+                    <div class="product-price">S/ 80.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Té Milenario')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="tianshi fos syrup.png" alt="Fos Syrup" class="product-image">
+                    <div class="product-name">Tianshi Fos Syrup</div>
+                    <div class="product-price">S/ 35.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Fos Syrup')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="bebida de fibra.png" alt="Bebida Fibra" class="product-image">
+                    <div class="product-name">Bebida de Fibra Prebiótica Tiens</div>
+                    <div class="product-price">S/ 170.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Bebida de Fibra')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="cordycafe.png" alt="CordyCafe" class="product-image">
+                    <div class="product-name">CordyCafé</div>
+                    <div class="product-price">S/ 69.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('CordyCafé')">Añadir al carrito</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">Cuidado Personal</h2>
+            <div class="category-banner" style="background-image: linear-gradient(to right, #ffebee, #e8f5e9);"></div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="orecare pasta dental.png" alt="Pasta Dental" class="product-image">
+                    <div class="product-name">Pasta Dental Orecare</div>
+                    <div class="product-price">S/ 33.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Pasta Dental Orecare')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="orecare blanqueadora.png" alt="Pasta Blanqueadora" class="product-image">
+                    <div class="product-name">Pasta Blanqueadora Herbal 5 Orecare</div>
+                    <div class="product-price">S/ 30.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Pasta Blanqueadora Orecare')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="Cellestiane bloqueador.png" alt="Bloqueador Solar" class="product-image">
+                    <div class="product-name">CelleSTIANE Bloqueador Solar</div>
+                    <div class="product-price">S/ 90.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Bloqueador Solar')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="spakare.png" alt="Spakare" class="product-image">
+                    <div class="product-name">SPAKARE - Breathing Element Oil</div>
+                    <div class="product-price">S/ 75.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Spakare')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="Gel rejuvenecedor.png" alt="Gel Cilvaris" class="product-image">
+                    <div class="product-name">Gel Rejuvenecedor Cilvaris</div>
+                    <div class="product-price">S/ 69.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Gel Rejuvenecedor Cilvaris')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="M & Y Esencia Hidratante.png" alt="Esencia Hidratante" class="product-image">
+                    <div class="product-name">M&Y Esencia Hidratante</div>
+                    <div class="product-price">S/ 134.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('M&Y Esencia Hidratante')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="M&Y locion tonica.png" alt="Locion Tonica" class="product-image">
+                    <div class="product-name">M&Y Loción Tónica</div>
+                    <div class="product-price">S/ 124.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('M&Y Loción Tónica')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="M&Y serum contorno de ojos.png" alt="Serum Ojos" class="product-image">
+                    <div class="product-name">M&Y Serum Contorno de Ojos</div>
+                    <div class="product-price">S/ 107.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('M&Y Serum Contorno de Ojos')">Añadir al carrito</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">Cuidado Femenino (Airiz)</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="toallahigienicadiaAIRIZ.png" alt="Toalla Dia" class="product-image">
+                    <div class="product-name">Toalla higiénica de día AIRIZ</div>
+                    <div class="product-price">S/ 12.60</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Toalla de día AIRIZ')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="toalla-higienica-de-noche-AIRIZ.png" alt="Toalla Noche" class="product-image">
+                    <div class="product-name">Toalla higiénica de noche AIRIZ</div>
+                    <div class="product-price">S/ 15.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Toalla de noche AIRIZ')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="protector diario AIRIZ.png" alt="Protector Diario" class="product-image">
+                    <div class="product-name">Protector diario AIRIZ</div>
+                    <div class="product-price">S/ 16.80</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Protector diario AIRIZ')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="pack-toallas-airiz.png" alt="Set Toallas" class="product-image">
+                    <div class="product-name">Toallas Sanitarias Airiz (Set)</div>
+                    <div class="product-price">S/ 79.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Set Toallas Airiz')">Añadir al carrito</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">Equipos Biomedicos</h2>
+            <div class="category-banner" style="background-image: linear-gradient(to right, #e0f7fa, #b2ebf2);"></div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="Masajeador-de-circulacion-sanguinea-Tiens.jpeg" alt="Masajeador Circulacion" class="product-image">
+                    <div class="product-name">Masajeador de Circulación Sanguínea</div>
+                    <div class="product-price">S/ 2,450.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Masajeador de Circulación')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="generador_de_agua_desinfectante.png" alt="Generador Agua" class="product-image">
+                    <div class="product-name">Generador de Agua Desinfectante</div>
+                    <div class="product-price">S/ 600.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Generador de Agua')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="masajeador capilar multifuncional.png" alt="Masajeador Capilar" class="product-image">
+                    <div class="product-name">Masajeador Capilar Multifuncional</div>
+                    <div class="product-price">S/ 550.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Masajeador Capilar')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="cinturon_musical_de_energia.png" alt="Cinturon Musical" class="product-image">
+                    <div class="product-name">Cinturón Musical de Energía</div>
+                    <div class="product-price">S/ 600.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('Cinturón Musical')">Añadir al carrito</a>
+                </div>
+                <div class="product-card">
+                    <img src="cilvaris.png" alt="Cilvaris" class="product-image">
+                    <div class="product-name">CILVARIS</div>
+                    <div class="product-price">S/ 965.00</div>
+                    <a href="#" class="btn-buy" onclick="comprar('CILVARIS')">Añadir al carrito</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <h3>Métodos de Pago</h3>
+            <div class="payment-methods">
+                <div class="pay-item">
+                    <img src="yape.png" alt="Yape">
+                    <span>Yape</span>
+                </div>
+                <div class="pay-item">
+                    <img src="bcp.png" alt="BCP">
+                    <span>Transferencia BCP</span>
+                </div>
+                <div class="pay-item">
+                    <img src="whatsapp.png" alt="Coordinación al interno">
+                    <span>Coordinación al interno</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <a href="https://wa.me/51912112058?text=Hola,%20necesito%20ayuda%20con%20los%20productos%20Tiens." target="_blank" class="floating-wa">
+        <div class="wa-tooltip">¿Necesitas ayuda?</div>
+        <div class="wa-icon"></div>
+    </a>
+
+    <script>
+        function comprar(producto) {
+            event.preventDefault();
+            const telefono = "51912112058";
+            const mensaje = `Hola Sally, deseo añadir al carrito y comprar el producto: *${producto}*. ¿Me indicas los pasos a seguir?`;
+            const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
